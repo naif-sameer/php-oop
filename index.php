@@ -153,6 +153,8 @@ class Products
           edit
         </button>
       </form>
+
+      <div class='border border-gray-500 px-4 mr-2'>category id = {$row['category_id']}</div>
       
       <form class='flex m-0' action='' method='post'>
         <input name='delete_category_id' type='hidden' value='{$row['id']}'/>
@@ -171,7 +173,10 @@ class Products
   {
     global $connection;
 
-    mysqli_query($connection, "INSERT INTO `products` (`name`) VALUES ('$product_name')");
+    $sql = "INSERT INTO `products` (`name`, `image`, `category_id`) VALUES ('$product_name', 'localhost/img/jpg', '1')";
+
+
+    mysqli_query($connection, $sql);
   }
 
   public function update_product($product_id, $product_name)
@@ -317,6 +322,22 @@ if (isset($_POST['update_category_id'])) {
 // delete
 if (isset($_POST['delete_category_id'])) {
   $categories->delete_category($_POST['delete_category_id']);
+}
+
+# product 
+// add
+if (isset($_POST['product_name']) && strlen($_POST['product_name']) > 1) {
+  $products->add_product($_POST['product_name']);
+}
+
+// update
+if (isset($_POST['update_product_name'])) {
+  $products->update_product($_POST['update_product_id'], $_POST['update_product_name']);
+}
+
+// delete
+if (isset($_POST['delete_product_id'])) {
+  $products->delete_product($_POST['delete_product_id']);
 }
 
 ?>
